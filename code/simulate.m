@@ -16,6 +16,11 @@ if(~strcmp('eot-simulation', folder))
     error('Run the script in the eot-simulation directory.');
 end
 
+%**************************************************************************
+
+% Source config file
+
+config;
 
 %**************************************************************************
 
@@ -30,16 +35,30 @@ P = sqrt(a^3);              % Period in (earth) days
 % Do the thing
 
 nIter = ceil(P*365/deltaT);
-RASunExpected = linspace(1, 2*pi, nIter);
-RASun = zeros([1 nIter]);
+RAPlExpected = zeros([1 nIter]);
+deltaRAPlExp = 2*pi*deltaT / (P*365);
+RAPl = zeros([1 nIter]);
 
-% Simulate for the planet wrt the sun first, because that's how the
+angMom = 2 * pi * a * b / P;
+
+% Simulate for the planet wrt the sun, because that's how the
 % parameters are defined
 
-for i=2:nIter % We start when RA(planet) = 0
+% We start at perihelion
+trueAnomaly = 0;
+RAPl(1) = omega + atan2(cot(trueAnomaly+per), cos(i));
+
+for i=2:nIter
     
+    dist = a*(1-eps^2)/(1+eps*cos(trueAnomaly));
+    angSpeed = angMom / dist^2;
     
+    trueAnomaly = trueAnomaly + angSpeed*deltaT;
     
+    RAPl(i) = omega + atan2(cot(trueAnomaly+per), cos(i));
+ 
+    RAPlExpected(i) = RAPlExpected(i-1) + deltaRAPlExp;
+                                
 end
 
 EOT = RAPl - RAPlExpected;

@@ -9,14 +9,24 @@
 
 % Parameters
 
-a = 1;              % Semimajor axis in au
-eps = 0.5;          % Orbital eccentricity
-inc = 30;           % Inclination, in degrees
-omega = 170;        % Longitude of ascending node, in degrees
-per = 230;          % Argument of perihelion, in degrees
+% Semimajor axis in au
+a = 1;
+
+% Orbital eccentricity
+eps = 0.01671123;
+
+% Inclination, in degrees
+inc = deg2rad(23+26/60+21.4119/3600);
+
+% Longitude of ascending node, in degrees
+omega = deg2rad(348.73936);
+
+% Argument of perihelion, in degrees
+per = deg2rad(114.20783);
 
 %**************************************************************************
 
 % Resolution options
 
-deltaT = 0.25;      % Time resolution in (earth) days
+% Time resolution in (earth) days
+deltaT = 1;
