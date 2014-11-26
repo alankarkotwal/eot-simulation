@@ -62,3 +62,29 @@ for i=2:nIter
 end
 
 EOT = RAPl - RAPlExpected;
+
+%**************************************************************************
+
+% Save results and plots
+csvwrite('results/results.csv', [transpose(EOT) ...
+         transpose(RAPlExpected) transpose(RAPl)]);
+
+EOTFig = figure;
+plot(EOT);
+ylabel('Equation of Time');
+xlabel('Iteration number');
+saveas(EOTFig, 'plots/EOT.png');
+
+
+RAPlFig = figure;
+plot(RAPl);
+ylabel('RA of Planet');
+xlabel('Iteration number');
+saveas(RAPlFig, 'plots/RAPl.png');
+
+
+ExpRAPlFig = figure;
+plot(RAPlExpected);
+ylabel('Expected Planet RA');
+xlabel('Iteration number');
+saveas(ExpRAPlFig, 'plots/ExpRAPl.png');
