@@ -35,6 +35,8 @@ P = sqrt(a^3);              % Period in (earth) days
 % Do the thing
 
 nIter = ceil(P*365/deltaT);
+trueAnomalyArr = zeros([1 nIter]);
+trueAnomalyExp = zeros([1 nIter]);
 RAPlExpected = zeros([1 nIter]);
 deltaRAPlExp = 2*pi*deltaT / (P*365);
 RAPl = zeros([1 nIter]);
@@ -45,18 +47,23 @@ angMom = 2 * pi * a * b / P;
 % parameters are defined
 
 % We start at perihelion
-trueAnomaly = 0;
-RAPl(1) = omega + atan2(cot(trueAnomaly+per), cos(i));
+trueAnomalyArr(1) = 0;
+trueAnomalyExp(1) = 0;
+deltaTrueAnomaly = 2*pi*deltaT / (P*365);
+RAPl(1) = omega + atan(cot(trueAnomalyArr(1)+per)/cos(inc));
+RAPlExpected(1) = RAPl(1); % Start the mean sun off from here
 
 for i=2:nIter
     
-    dist = a*(1-eps^2)/(1+eps*cos(trueAnomaly));
+    dist = a*(1-eps^2)/(1+eps*cos(trueAnomalyArr(i-1)));
     angSpeed = angMom / dist^2;
     
-    trueAnomaly = trueAnomaly + angSpeed*deltaT;
+    trueAnomalyArr(i) = trueAnomalyArr(i-1) + angSpeed*deltaT/365;
+    trueAnomalyExp(i) = trueAnomalyExp(i-1) + deltaTrueAnomaly;
     
-    RAPl(i) = omega + atan2(cot(trueAnomaly+per), cos(i));
- 
+    RAPl(i) = omega + atan2(cot(trueAnomalyArr(i)+per), cos(inc));
+    disp(atan2(cot(trueAnomalyArr(i)+per), cos(inc)));
+    
     RAPlExpected(i) = RAPlExpected(i-1) + deltaRAPlExp;
                                 
 end

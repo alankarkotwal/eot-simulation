@@ -13,7 +13,8 @@
 a = 1;
 
 % Orbital eccentricity
-eps = 0.01671123;
+%eps = 0.01671123;
+eps = 0.95;
 
 % Inclination, in degrees
 inc = deg2rad(23+26/60+21.4119/3600);
@@ -29,4 +30,4 @@ per = deg2rad(114.20783);
 % Resolution options
 
 % Time resolution in (earth) days
-deltaT = 1;
+deltaT = 10;
